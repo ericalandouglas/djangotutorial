@@ -6,4 +6,4 @@ def backup():
 	print "Enter your commit comment:"
 	comment = raw_input()
 	local('git commit -m "%s"' % comment)
-	lcoal('git push origin master')
+	local('git push origin master')
