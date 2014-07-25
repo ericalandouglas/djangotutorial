@@ -7,6 +7,7 @@ from article.models import Article, Comment
 from forms import ArticleForm, CommentForm
 from django.core.context_processors import csrf
 from django.utils import timezone
+from haystack.query import SearchQuerySet
 
 # Create your views here.
 
@@ -108,9 +109,5 @@ def add_comment(request, article_id):
 	return render_to_response('add_comment.html', args)
 
 def search_titles(request):
-	if request.method == "POST":
-		search_text = request.POST['search_text']
-	else:
-		search_text = ''
-	articles = Article.objects.filter(title__contains=search_text)
+	articles = SearchQuerySet().autocomplete(content_auto=request.POST.get('search_text', ''))
 	return render_to_response('ajax_search.html', {'articles': articles})

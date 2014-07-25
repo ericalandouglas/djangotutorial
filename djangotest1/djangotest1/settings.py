@@ -41,6 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.formtools',
     'userprofile',
     'storages',
+    'whoosh',
+    'haystack',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,6 +107,15 @@ STATICFILES_DIRS = (
 
 AUTH_PROFILE_MODULE = 'userprofile.UserProfile'
 
+WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh/')
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': WHOOSH_INDEX,
+    },
+}
+
 # Email settings
 
 EMAIL_USE_TLS = True
@@ -112,3 +123,43 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ericalandouglas@gmail.com'
 EMAIL_HOST_PASSWORD = 'fallen262'
 EMAIL_PORT = 587
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        }
+    },
+    'handlers': {
+        'default': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'logs/mylog.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter': 'standard'
+        },
+        'request_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'logs/django_request.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter': 'standard'
+        }
+    },
+    'loggers': {
+        '': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+            'propogate': True
+        },
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False
+        }
+    }
+}

@@ -22,7 +22,7 @@ import os
 SECRET_KEY = 'x3tl-tp7nh)-9nf2y70kdk^63n(8_@v)oyn1)t_222)q5ptpmx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True # deploy locally using S3
 
 TEMPLATE_DEBUG = True
 

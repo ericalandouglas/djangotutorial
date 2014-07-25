@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^accounts/register/$', 'djangotest1.views.register_user'),
     url(r'^accounts/register_success/$', 'djangotest1.views.register_success'),
     url(r'^contact/$', ContactWizard.as_view([ContactForm1, ContactForm2, ContactForm3])),
+    url(r'^search/', include('haystack.urls')),
 )
 
 if not settings.DEBUG:
